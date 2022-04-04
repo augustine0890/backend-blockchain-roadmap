@@ -24,4 +24,12 @@ func main() {
 	var s string = "abc"
 	fmt.Println(i)
 	fmt.Println(s)
+
+	const (
+		t = 10
+		g = 20
+		h = 30
+	)
+	fmt.Println(t, g, h)
+
 }
