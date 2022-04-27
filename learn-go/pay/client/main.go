@@ -5,6 +5,22 @@ import (
 	"pay/payment"
 )
 
+type CreditAccount struct{}
+
+func (c *CreditAccount) processPayment(amount float32) {
+	fmt.Println("Processing credit card payment...")
+}
+
+func NewCreditAccount(chargeCh chan float32) *CreditAccount {
+	creditAccount := &CreditAccount{}
+	go func(chargeCh chan float32) {
+		for amount := range chargeCh {
+			creditAccount.processPayment(amount)
+		}
+	}(chargeCh)
+	return creditAccount
+}
+
 func main() {
 	credit := payment.CreateCreditAccount(
 		"Debra Ingram",
@@ -37,4 +53,9 @@ func main() {
 
 	option.ProcessPayment(500)
 
+	chargeCh := make(chan float32)
+	NewCreditAccount(chargeCh)
+	chargeCh <- 300
+	var a string
+	fmt.Scanln(&a)
 }
