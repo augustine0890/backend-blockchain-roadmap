@@ -5,7 +5,37 @@ import (
 	"pay/payment"
 )
 
-type CreditAccount struct{}
+type Account struct{}
+
+func (c *Account) AvailableFunds() float32 {
+	fmt.Println("Listing available funds...")
+	return 50
+}
+
+func (a *Account) ProcessPayment(amount float32) bool {
+	fmt.Println("Processing payment...")
+	return true
+}
+
+type CreditAccount struct {
+	Account
+}
+
+type CheckingAccount struct{}
+
+func (c *CheckingAccount) AvailableFunds() float32 {
+	fmt.Println("Getting checking funds...")
+	return 250
+}
+
+type HybirdAccount struct {
+	Account
+	CheckingAccount
+}
+
+func (h *HybirdAccount) AvailableFunds() float32 {
+	return h.Account.AvailableFunds() + h.CheckingAccount.AvailableFunds()
+}
 
 func (c *CreditAccount) processPayment(amount float32) {
 	fmt.Println("Processing credit card payment...")
@@ -58,4 +88,12 @@ func main() {
 	chargeCh <- 300
 	var a string
 	fmt.Scanln(&a)
+
+	ca := &CreditAccount{}
+	ca.AvailableFunds()
+	ca.ProcessPayment(500)
+
+	ha := &HybirdAccount{}
+	fmt.Println(ha.AvailableFunds())
+	fmt.Println(ha.CheckingAccount.AvailableFunds())
 }
