@@ -3,6 +3,7 @@ package payment
 import (
 	"errors"
 	"regexp"
+	"time"
 )
 
 type CreditCard struct {
@@ -49,4 +50,31 @@ func (c *CreditCard) SetCardNumber(value string) error {
 		return errors.New("Invalid credit card number format")
 	}
 	return nil
+}
+
+func (c CreditCard) ExpirationDate() (int, int) {
+	return c.expirationMonth, c.expirationYear
+}
+
+func (c *CreditCard) SetExpirationDate(month, year int) error {
+	now := time.Now()
+	if year < now.Year() || (year == now.Year() && time.Month(month) < now.Month()) {
+		return errors.New("Expiration date must lie in the future")
+	}
+	c.expirationMonth, c.expirationYear = month, year
+	return nil
+}
+
+func (c CreditCard) SecurityCode() int {
+	return c.securityCode
+}
+
+func (c *CreditCard) SetSecurityCode(value int) {
+	if value < 100 || value > 999 {
+
+	}
+}
+
+func (c CreditCard) AvailableCredit() float32 {
+	return 5000. // this can com from a web service, client doesn't know or care.
 }
