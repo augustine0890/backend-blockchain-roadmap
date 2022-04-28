@@ -2,8 +2,13 @@ package main
 
 import (
 	"fmt"
+	"pay/paybroker"
 	"pay/payment"
 )
+
+type PaymentOption interface {
+	ProcessPayment(float32) bool
+}
 
 type Account struct{}
 
@@ -69,7 +74,8 @@ func main() {
 	}
 	fmt.Printf("Available credit: %v\n", credit.AvailableCredit())
 
-	var option payment.PaymentOption
+	var option PaymentOption
+
 	option = payment.CreateCreditAccount(
 		"Debra Ingram",
 		"1111-2222-3333-4444",
@@ -80,6 +86,10 @@ func main() {
 	option.ProcessPayment(500)
 
 	option = payment.CreateCashAccount()
+
+	option.ProcessPayment(500)
+
+	option = &paybroker.PaymentBrokerAccount{}
 
 	option.ProcessPayment(500)
 
