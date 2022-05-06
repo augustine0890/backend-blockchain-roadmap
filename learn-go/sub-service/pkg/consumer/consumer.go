@@ -1,94 +1,40 @@
 package consumer
 
 import (
-	"context"
-	"encoding/json"
 	"fmt"
-	"time"
+	"strings"
 
 	"github.com/Shopify/sarama"
 )
 
-type ConsumerGroupHandler interface {
-	sarama.ConsumerGroupHandler
-	WaitReady()
-	Reset()
-}
-
-type ConsumerGroup struct {
-	cg sarama.ConsumerGroup
-}
-
-func NewConsumerGroup(broker string, topics []string, group string, handler ConsumerGroupHandler) (*ConsumerGroup, error) {
-	ctx := context.Background()
-	cfg := sarama.NewConfig()
-	cfg.Consumer.Offsets.Initial = sarama.OffsetOldest
-	client, err := sarama.NewConsumerGroup([]string{broker}, group, cfg)
-	if err != nil {
-		panic(err)
-	}
-
-	go func() {
-		for {
-			err := client.Consume(ctx, topics, handler)
-			if err != nil {
-				if err == sarama.ErrClosedConsumerGroup {
-					break
-				} else {
-					panic(err)
+func StartConsumer(topics []string, master sarama.Consumer) (chan *sarama.ConsumerMessage, chan *sarama.ConsumerError) {
+	consumers := make(chan *sarama.ConsumerMessage)
+	errors := make(chan *sarama.ConsumerError)
+	for _, topic := range topics {
+		if strings.Contains(topic, "__consumer_offsets") {
+			continue
+		}
+		partitions, _ := master.Partitions(topic)
+		// this only consumes partition no 1, you would probably want to consume all partitions
+		consumer, err := master.ConsumePartition(topic, partitions[0], sarama.OffsetOldest)
+		if nil != err {
+			fmt.Printf("Topic %v Partitions: %v", topic, partitions)
+			panic(err)
+		}
+		fmt.Println("Start consuming topic ", topic)
+		go func(topic string, consumer sarama.PartitionConsumer) {
+			for {
+				select {
+				case consumerError := <-consumer.Errors():
+					errors <- consumerError
+					fmt.Println("consumerError: ", consumerError.Err)
+				case msg := <-consumer.Messages():
+					consumers <- msg
+					// fmt.Println("Got message on topic ", topic, msg.Value)
 				}
 			}
-			if ctx.Err() != nil {
-				return
-			}
-			handler.Reset()
-		}
-	}()
-
-	// Await till the consumer has been set up
-	handler.WaitReady()
-
-	return &ConsumerGroup{
-		cg: client,
-	}, nil
-}
-
-func (c *ConsumerGroup) Close() error {
-	return c.cg.Close()
-}
-
-type ConsumerSessionMessage struct {
-	Session  sarama.ConsumerGroupSession
-	Messages *sarama.ConsumerMessage
-}
-
-func decodeMessage(data []byte) error {
-	var msg Messages
-	err := json.Unmarshal(data, &msg)
-	if err != nil {
-		return err
+		}(topic, consumer)
 	}
-	return nil
-}
 
-func StartSyncConsumer(broker, topic string) (*ConsumerGroup, error) {
-	var count int64
-	var start = time.Now()
-	handler := NewSyncConsumerGroupHandler(func(data []byte) error {
-		if err := decodeMessage(data); err != nil {
-			return err
-		}
-		fmt.Printf("Messages: %v\n", string(data))
-		count++
-		if count%100 == 0 {
-			fmt.Printf("sync consumer consumed %d message at speed %.2f/s\n", count, float64(count)/time.Since(start).Seconds())
-		}
-		return nil
-	})
-
-	consumer, err := NewConsumerGroup(broker, []string{topic}, "sync-consumer-"+fmt.Sprintf("%d", time.Now().Unix()), handler)
-	if err != nil {
-		return nil, err
-	}
-	return consumer, nil
+	return consumers, errors
 }
