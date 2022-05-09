@@ -1,14 +1,44 @@
 package consumer
 
 import (
-	"fmt"
 	"strings"
+	"sub-service/pkg/nft"
+	"sync"
 
 	"github.com/Shopify/sarama"
+	log "github.com/sirupsen/logrus"
 )
 
-func StartConsumer(topics []string, master sarama.Consumer) (chan *sarama.ConsumerMessage, chan *sarama.ConsumerError) {
-	consumers := make(chan *sarama.ConsumerMessage)
+type Consumer struct {
+	Polygon *nft.NFT
+}
+
+func NewConsumer(polygon *nft.NFT) *Consumer {
+	return &Consumer{
+		Polygon: polygon,
+	}
+}
+
+func (c *Consumer) StartConsumer() {
+	broker := "13.92.179.244:9092"
+	topics := []string{"MATIC-PDMP-SERVICE"}
+
+	log.Info("[🚀 Consumer is running]")
+
+	cfg := sarama.NewConfig()
+	cfg.Consumer.Offsets.Initial = sarama.OffsetOldest
+
+	// Create new sarama consumer
+	master, err := sarama.NewConsumer([]string{broker}, cfg)
+	if err != nil {
+		panic(err)
+	}
+	defer func() {
+		if err := master.Close(); err != nil {
+			panic(err)
+		}
+	}()
+
 	errors := make(chan *sarama.ConsumerError)
 	for _, topic := range topics {
 		if strings.Contains(topic, "__consumer_offsets") {
@@ -18,23 +48,27 @@ func StartConsumer(topics []string, master sarama.Consumer) (chan *sarama.Consum
 		// this only consumes partition no 1, you would probably want to consume all partitions
 		consumer, err := master.ConsumePartition(topic, partitions[0], sarama.OffsetOldest)
 		if nil != err {
-			fmt.Printf("Topic %v Partitions: %v", topic, partitions)
+			// log.Info("Topic %v Partitions: %v", topic, partitions)
 			panic(err)
 		}
-		fmt.Println("Start consuming topic ", topic)
+
+		var wg sync.WaitGroup
+		wg.Add(1)
 		go func(topic string, consumer sarama.PartitionConsumer) {
+			defer wg.Done()
 			for {
 				select {
 				case consumerError := <-consumer.Errors():
 					errors <- consumerError
-					fmt.Println("consumerError: ", consumerError.Err)
+					log.Info("consumerError: ", consumerError.Err)
 				case msg := <-consumer.Messages():
-					consumers <- msg
+					if msg.Topic == topic {
+						log.Infof("TOPIC: %s - OFFSET: %d - KEY: %s - MESSAGE: %s", msg.Topic, msg.Offset, string(msg.Key), string(msg.Value))
+					}
 					// fmt.Println("Got message on topic ", topic, msg.Value)
 				}
 			}
 		}(topic, consumer)
+		wg.Wait()
 	}
-
-	return consumers, errors
 }

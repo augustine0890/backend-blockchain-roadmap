@@ -1,4 +1,4 @@
-package consumer
+package models
 
 type Messages struct {
 	TRANSACTIONTYPE  int    `json:"TRANSACTIONTYPE"`
@@ -16,9 +16,9 @@ type Messages struct {
 	TIMESTAMP        string
 	TIMEUNIX         int
 	VALUE            CurrencyInfo
-	STATUS           string	`json:"STATUS"`
+	STATUS           string `json:"STATUS"`
 	ORDERTYPE        string `json:"ORDERTYPE"`
-	ISPDMP           bool `json:"ISPDMP"`
+	ISPDMP           bool   `json:"ISPDMP"`
 }
 
 // CurrencyInfo is...
