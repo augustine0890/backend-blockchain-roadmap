@@ -1,9 +1,9 @@
 package models
 
 type Messages struct {
-	TRANSACTIONTYPE  int    `json:"TRANSACTIONTYPE"`
-	BLOCKHASH        string `json:"BLOCKHASH"`
-	BLOCKNUMBER      string `json:"BLOCKNUMBER"`
+	TRANSACTIONTYPE  int    
+	BLOCKHASH        string 
+	BLOCKNUMBER      string 
 	TRANSACTIONHASH  string
 	TRANSACTIONINDEX int
 	LOGINDEX         int
@@ -16,13 +16,13 @@ type Messages struct {
 	TIMESTAMP        string
 	TIMEUNIX         int
 	VALUE            CurrencyInfo
-	STATUS           string `json:"STATUS"`
-	ORDERTYPE        string `json:"ORDERTYPE"`
-	ISPDMP           bool   `json:"ISPDMP"`
+	STATUS           string 
+	ORDERTYPE        string 
+	ISPDMP           bool   
 }
 
 // CurrencyInfo is...
 type CurrencyInfo struct {
-	Price    string `json:"Price"`
-	Currency string `json:"Currency"`
+	Price    string 
+	Currency string 
 }

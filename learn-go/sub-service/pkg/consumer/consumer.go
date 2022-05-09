@@ -31,11 +31,11 @@ func (c *Consumer) StartConsumer() {
 	// Create new sarama consumer
 	master, err := sarama.NewConsumer([]string{broker}, cfg)
 	if err != nil {
-		panic(err)
+		log.Panic(err)
 	}
 	defer func() {
 		if err := master.Close(); err != nil {
-			panic(err)
+			log.Panic(err)
 		}
 	}()
 
@@ -48,8 +48,7 @@ func (c *Consumer) StartConsumer() {
 		// this only consumes partition no 1, you would probably want to consume all partitions
 		consumer, err := master.ConsumePartition(topic, partitions[0], sarama.OffsetOldest)
 		if nil != err {
-			// log.Info("Topic %v Partitions: %v", topic, partitions)
-			panic(err)
+			log.Panic(err)
 		}
 
 		var wg sync.WaitGroup
@@ -63,9 +62,9 @@ func (c *Consumer) StartConsumer() {
 					log.Info("consumerError: ", consumerError.Err)
 				case msg := <-consumer.Messages():
 					if msg.Topic == topic {
-						log.Infof("TOPIC: %s - OFFSET: %d - KEY: %s - MESSAGE: %s", msg.Topic, msg.Offset, string(msg.Key), string(msg.Value))
+						log.Infof("TOPIC: %s - OFFSET: %d - KEY: %s - MESSAGE: %v", msg.Topic, msg.Offset, string(msg.Key), string(msg.Value))
+						c.Polygon.Msg <- msg
 					}
-					// fmt.Println("Got message on topic ", topic, msg.Value)
 				}
 			}
 		}(topic, consumer)
