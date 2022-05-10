@@ -37,12 +37,11 @@ func (n *NFT) ProcessMsg() {
 		json.Unmarshal(value, &data)
 		switch data.TRANSACTIONTYPE {
 		case MINT:
-			log.Info("Msg: ", data)
+			log.Infof("Msg: OFFSET - %d - %v ", m.Offset, data)
 		case BURN:
-			log.Info("Msg: ", data)
+			log.Infof("Msg: OFFSET - %d - %v ", m.Offset, data)
 		case TRANSFER:
-			log.Info("Msg: ", data)
-		default:
+			log.Infof("Msg: OFFSET - %d - %v ", m.Offset, data)
 		}
 	}
 }
