@@ -62,7 +62,7 @@ func (c *Consumer) StartConsumer() {
 					log.Info("consumerError: ", consumerError.Err)
 				case msg := <-consumer.Messages():
 					if msg.Topic == topic {
-						log.Infof("TOPIC: %s - OFFSET: %d - KEY: %s - MESSAGE: %v", msg.Topic, msg.Offset, string(msg.Key), string(msg.Value))
+						// log.Infof("TOPIC: %s - OFFSET: %d - KEY: %s - MESSAGE: %v", msg.Topic, msg.Offset, string(msg.Key), string(msg.Value))
 						c.Polygon.Msg <- msg
 					}
 				}

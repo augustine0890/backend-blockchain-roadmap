@@ -9,10 +9,11 @@ import (
 )
 
 func main() {
-	var p *nft.NFT
+	// var p *nft.NFT
+	p := nft.NewNFT()
 	kafka := consumer.NewConsumer(p)
-	kafka.StartConsumer()
-
+	go kafka.StartConsumer()
+	p.ProcessMsg()
 	signals := make(chan os.Signal, 1)
 	signal.Notify(signals, os.Interrupt)
 

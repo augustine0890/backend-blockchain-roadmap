@@ -1,13 +1,17 @@
 package nft
 
 import (
+	"encoding/json"
 	"sub-service/pkg/models"
-	"time"
+	"sync"
 
 	"github.com/Shopify/sarama"
+	log "github.com/sirupsen/logrus"
 )
 
 type NFT struct {
+	nftMtx sync.Mutex
+
 	// storage
 	// search
 	Msg chan *sarama.ConsumerMessage
@@ -25,35 +29,20 @@ func NewNFT() *NFT {
 	}
 }
 
-func (n *NFT) processMsg() {
-	processReceivedTicker := time.NewTicker(10 * time.Millisecond)
-	doProcessCh := make(chan struct{}, 1)
-
+func (n *NFT) ProcessMsg() {
 	for {
-		select {
-		case <-processReceivedTicker.C:
-			select {
-			case doProcessCh <- struct{}{}:
-			default:
-			}
-		case <-doProcessCh:
-			for {
-				m := <-n.Msg
-				value := m.Value
-
-				data := models.Messages{}
-				json.Unmarshal(value, &data)
-				switch data.TRANSACTIONTYPE {
-				case MINT:
-					log.Info("Msg: ", data)
-				case BURN:
-				case TRANSFER:
-					}
-				}
-			n.Quit()
-		}
-		case <- n.Quit():
-			break
+		m := <-n.Msg
+		value := m.Value
+		data := models.Messages{}
+		json.Unmarshal(value, &data)
+		switch data.TRANSACTIONTYPE {
+		case MINT:
+			log.Info("Msg: ", data)
+		case BURN:
+			log.Info("Msg: ", data)
+		case TRANSFER:
+			log.Info("Msg: ", data)
+		default:
 		}
 	}
 }
