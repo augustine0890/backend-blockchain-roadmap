@@ -9,6 +9,8 @@ import (
 	"time"
 )
 
+const MINING_DIFFICULTY = 4
+
 type Block struct {
 	nonce        int
 	previousHash [32]byte
@@ -90,8 +92,37 @@ func (bc *Blockchain) Print() {
 }
 
 func (bc *Blockchain) AddTransaction(sender string, recipient string, value float32) {
-	t := NewTransactioin(sender, recipient, value)
+	t := NewTransaction(sender, recipient, value)
 	bc.transactionPool = append(bc.transactionPool, t)
+}
+
+func (bc *Blockchain) CopyTransactionPool() []*Transaction {
+	transactions := make([]*Transaction, 0)
+	for _, t := range bc.transactionPool {
+		transactions = append(transactions,
+			NewTransaction(t.senderBlockchainAddress,
+				t.recipientBlockchainAddress,
+				t.value))
+	}
+	return transactions
+}
+
+func (bc *Blockchain) ValidProof(nonce int, previousHash [32]byte, transactions []*Transaction, difficulty int) bool {
+	zeros := strings.Repeat("0", difficulty)
+	guessBlock := Block{nonce, previousHash, 0, transactions}
+	guessHashStr := fmt.Sprintf("%x", guessBlock.Hash())
+	// fmt.Println(guessHashStr)
+	return guessHashStr[:difficulty] == zeros
+}
+
+func (bc *Blockchain) ProofOfWork() int {
+	transactions := bc.CopyTransactionPool()
+	previousHash := bc.LastBlock().Hash()
+	nonce := 0
+	for !bc.ValidProof(nonce, previousHash, transactions, MINING_DIFFICULTY) {
+		nonce += 1
+	}
+	return nonce
 }
 
 type Transaction struct {
@@ -100,7 +131,7 @@ type Transaction struct {
 	value                      float32
 }
 
-func NewTransactioin(sender string, recipient string, value float32) *Transaction {
+func NewTransaction(sender string, recipient string, value float32) *Transaction {
 	return &Transaction{sender, recipient, value}
 }
 
@@ -131,13 +162,12 @@ func main() {
 	blockChain.AddTransaction("A", "B", 1.0)
 
 	previousHash := blockChain.LastBlock().Hash()
-	time.Sleep(30 * time.Millisecond)
-	blockChain.CreateBlock(7, previousHash)
-	time.Sleep(50 * time.Millisecond)
+	nonce := blockChain.ProofOfWork()
+	blockChain.CreateBlock(nonce, previousHash)
 
 	blockChain.AddTransaction("C", "D", 2.0)
 	blockChain.AddTransaction("X", "Y", 3.0)
 	previousHash = blockChain.LastBlock().Hash()
-	blockChain.CreateBlock(5, previousHash)
+	blockChain.CreateBlock(blockChain.ProofOfWork(), previousHash)
 	blockChain.Print()
 }
