@@ -6,7 +6,11 @@
 - __Server Sent Eventing__: the server sends messages to the client once the initial connection has been set up by the client.
 - __gRPC__
   - The idea behind gRPC is to enable developers to use RPC-like communications over HTTP/2 while have a single client library.
-  
+- Efficient for inter-process communication
+- Code-generation of client and server stubs with strong types.
+- Cons:
+  - Most web browsers support is limited.
+  - Changing the service definition might require rework and regeneration of code.
 ## Protocol Buffer Data Format
 - Protocol Buffers are a data format, much like JSON or XML in the sense that they store structured data which can be serialized or deserialized.
 - Smaller than XML or JSON.
@@ -18,6 +22,25 @@
   ```
 - Encoded message:
   `08 96 01`
+
+## gRPC Server and Client
+- Install protocol buffer compiler, `protoc`
+  ```
+  $ brew install protobuf
+  $ protoc --version  # Ensure compiler version is 3+
+  ```
+1. Create the definition of the service with a `.proto` file
+2. Generate the server-side code in your preferred language (Go, Java, C# etc...)
+3. Generate the client-side code in your preferred language --> doesn't have to be the same language with server-side code.
+  - This includes methods that we can invoke on our server with additional code to serialize, deserialize messages.
+4. The client-server communication happens over an HTTP/2 connection.
+
+## gRPC Modes
+- There are 4 modes of gRPC communication styles.
+  - Unary RPC: send a request and receive a single response.
+  - Server Streaming RPC: client sends a request and reads until the server stops sending messages via a stream
+  - Client Streaming: client sends messages through the stream and waits for the server to read and return a response.
+  - Bidirectional streaming RPC: both client and server streams messages both ways.
 
 ## Packages
 - Mac OS 
