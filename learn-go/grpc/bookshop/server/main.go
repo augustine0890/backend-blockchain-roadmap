@@ -28,8 +28,11 @@ func main() {
 	}
 
 	s := grpc.NewServer()
+	// Enable reflection
 	reflection.Register(s)
 	pb.RegisterInventoryServer(s, &server{})
+
+	log.Println("Starting service on 0.0.0.0:8080")
 	if err := s.Serve(listener); err != nil {
 		log.Fatalf("Failed to serve: %v", err)
 	}

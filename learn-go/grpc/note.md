@@ -46,12 +46,18 @@
 - Mac OS 
   - `brew install protobuf`
 - `go get google.golang.org/protobuf`
+- The Go gRPC plugin
+  - `go get google.golang.org/grpc`
 - Install the Go protocol buffers plugin:
   - `go install google.golang.org/protobuf/cmd/protoc-gen-go@latest`
   - `go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest`
 - Compile
   - `protoc --go-grpc_out=. *.proto`
-
+- Install gRPCurl
+  - gRPC Curl can be installed from the following URL:
+    - `https://github.com/fullstorydev/grpcurl`
+  - Or `go install` command:
+    - `go install github.com/fullstorydev/grpcurl/cmd/grpcurl`
 # gRPC Server in Go
   ```proto
   syntax = "proto3";
@@ -72,11 +78,19 @@
     rpc GetBookList(GetBookListRequest) returns (GetBookListResponse) {}
   }
   ```
+- Generate Go stubs
+  - `make gen`
+- Clean stubs
+  - `make clean`
 - The `option` keyword: the Protobuf compiler where we want to put the generted stubs.
 - Generate the stubs:
   - `protoc --proto_path=proto proto/*.proto --go_out=. --go-grpc_out=.`
-- Use `gRPCurl`
-  - `grpcurl -plaintext localhost:8080 Inventory/GetBookList`
+- Use `gRPCurl` for invoking RPCs
+  - `grpcurl -plaintext localhost:8080 Inventory/GetBookList` # to get a list of books
+  - By default gRPCurl will attempt to use server reflection to determine the methods and types. To enable this reflection must be explictly implemented in the API. If reflection is not availabe, gRPCurl can also use the protos for the service.
+    - `grpcurl -plaintext localhost:8080 list` # introspect the service
+    - `grpcurl -plaintext localhost:8080 list Inventory` # listing methods for service
+    - `grpcurl -plaintext localhost:8080 describe Inventory.GetBookList` # methods in details
 ## References
 - Protocol Buffers by [Google](https://developers.google.com/protocol-buffers/docs/overview) Developers
 - Introduction to gRPC [blog](https://sahansera.dev/introduction-to-grpc/)
