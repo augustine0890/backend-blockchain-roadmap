@@ -52,7 +52,31 @@
 - Compile
   - `protoc --go-grpc_out=. *.proto`
 
-
+# gRPC Server in Go
+  ```proto
+  syntax = "proto3";
+  
+  option go_package = "pb/inventory";
+  
+  message Book {
+    string title = 1;
+    string author = 2;
+    int32 page_count = 3;
+    optional string language = 4;
+  }
+  
+  message GetBookListRequest {}
+  message GetBookListResponse { repeated Book books = 1;}
+  
+  service Inventory { 
+    rpc GetBookList(GetBookListRequest) returns (GetBookListResponse) {}
+  }
+  ```
+- The `option` keyword: the Protobuf compiler where we want to put the generted stubs.
+- Generate the stubs:
+  - `protoc --proto_path=proto proto/*.proto --go_out=. --go-grpc_out=.`
+- Use `gRPCurl`
+  - `grpcurl -plaintext localhost:8080 Inventory/GetBookList`
 ## References
 - Protocol Buffers by [Google](https://developers.google.com/protocol-buffers/docs/overview) Developers
 - Introduction to gRPC [blog](https://sahansera.dev/introduction-to-grpc/)
