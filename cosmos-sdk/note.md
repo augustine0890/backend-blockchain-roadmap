@@ -23,6 +23,8 @@
   - Inter-Blockchain Communication
   - Bridges
 - Module 3: Running a Chain
+  - Running a Node, API, and CLI
+  - [`simapp`](https://tutorials.cosmos.network/academy/3-running-a-chain/node-api-and-cli.html)
 - Module 4: My Own Cosmos Chain
 - Module 5: What's Next?
   - Continue your Cosmos journey
