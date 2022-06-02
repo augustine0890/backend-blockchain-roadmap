@@ -46,7 +46,7 @@
     1. Press `Ctrl+C` to stop the chain that you started with `ignite chain serve`
     2. Remove the Ignite CLI binary with `rm $(which ignite)`
 
-## Hello - Ignite CLI
+## [Hello](https://docs.ignite.com/guide/hello.html) - Ignite CLI
 - Create blockchain with default directory structure
   - `ignite scaffold chain github.com/augustine/hello`
 - The new blockchain imports standard Cosmos SDK modules
@@ -62,6 +62,54 @@
   - [http://localhost:26657](http://localhost:26657): low-level Tendermint API
   - [http://localhost:1317](http://localhost:1317): high-level blockchain API
 
+__Say "Hello, Ignite CLI"__
+- To get your blockchain to say `Hello! Ignite CLI`:
+  - Modify a protocol buffer file
+  - Create a keeper query function that return data
+  - Register a query function
+- Protocol buffer files contain proto rpc calls that define Cosmos SDK queries and message handlers, and proto messages that define Cosmos SDK types.
+- The `Keeper` is an abstraction for modifying the state of the blockchain.
+- A typical blockchain developer workflow looks something like this:
+  - Start with proto files to define Cosmos SDK messages.
+  - Define and register queries
+  - Define message handler logic
+  - Finally, implement the logic of these queries and message handlers in keeper functions
+
+- __Create a query__
+  - Create a `posts` query
+    - `ignite scaffold query posts --response title,body`
+    - The `query` command has created and modified several files:
+      ```shell
+      modify proto/hello/query.proto
+      modify x/hello/client/cli/query.go
+      create x/hello/client/cli/query_posts.go
+      create x/hello/keeper/grpc_query_posts.go
+      ```
+  - Updates to the query service
+  - Request and response types
+- __Posts keeper function__
+  - Update keeper function
+    - In the `query.proto` file, the response accepts `title` and `body`
+    ```go
+    func (k Keeper) Posts(goCtx context.Context, req *types.QueryPostsRequest) (*types.QueryPostsResponse, error) {
+      //...
+    	return &types.QueryPostsResponse{Title: "Hello!", Body: "Ignite CLI"}, nil
+    }
+    ```
+  - Visit the posts endpoint: [http://localhost:1317/augustine/hello/hello/posts](http://localhost:1317/augustine/hello/hello/posts)
+
+- __Register query handlers__
+  - Make the required changes to the `x/hello/module.go` file
+  - Search for `RegisterGRPCGatewayRoutes`:
+    ```go
+    // RegisterGRPCGatewayRoutes registers the gRPC Gateway routes for the module.
+    func (AppModuleBasic) RegisterGRPCGatewayRoutes(clientCtx client.Context, mux *runtime.ServeMux) {
+    	types.RegisterQueryHandlerClient(context.Background(), mux, types.NewQueryClient(clientCtx))
+    }
+    ```
+  - Start blockchain with reset: `ignite chain serve -r`
+- Run the following command and get the JSON
+  - `hellod q hello posts`
 ## Developer Resources
 - Cosmos [SDK](https://docs.cosmos.network/)
 - [Tendermint](https://docs.tendermint.com/) Core
