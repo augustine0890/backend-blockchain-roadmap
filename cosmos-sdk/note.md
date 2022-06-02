@@ -36,6 +36,16 @@
 - Upgrading blockchains and blockchain applications is notoriously difficult and risky.
 -Upgrading a live chain without software support for upgrades is risky, because all the validators need to pause their state machines at the same block height and apply the upgrade before resuming. If this is not done correctly, there can be state inconsistencies, which are hard to recover from.
 
+## Ignite CLI
+- Install Ignite CLI
+  - `curl https://get.ignite.com/cli! | bash`
+- Verify Ignite CLI version
+  - `ignite version`
+- Upgrading Ignite CLI
+  - Remove all existing Ignite CLI
+    1. Press `Ctrl+C` to stop the chain that you started with `ignite chain serve`
+    2. Remove the Ignite CLI binary with `rm $(which ignite)`
+
 ## Developer Resources
 - Cosmos [SDK](https://docs.cosmos.network/)
 - [Tendermint](https://docs.tendermint.com/) Core
