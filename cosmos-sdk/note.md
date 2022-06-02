@@ -46,6 +46,22 @@
     1. Press `Ctrl+C` to stop the chain that you started with `ignite chain serve`
     2. Remove the Ignite CLI binary with `rm $(which ignite)`
 
+## Hello - Ignite CLI
+- Create blockchain with default directory structure
+  - `ignite scaffold chain github.com/augustine/hello`
+- The new blockchain imports standard Cosmos SDK modules
+  - `staking`: for delegated Proof-of-Stake (PoS) consensus accounts
+  - `bank`: for fungible token transfers between accounts
+  - `gov`: for on-chain governance
+- Learn more about command
+  - `ignite scaffold --help`
+- Start a blockchain
+  - Download dependencies and compiles the source code into a binary called `hellod`
+  - `ignite chain serve`
+- HTTP API Console: Validator node exposes two API endpoints
+  - [http://localhost:26657](http://localhost:26657): low-level Tendermint API
+  - [http://localhost:1317](http://localhost:1317): high-level blockchain API
+
 ## Developer Resources
 - Cosmos [SDK](https://docs.cosmos.network/)
 - [Tendermint](https://docs.tendermint.com/) Core
