@@ -110,6 +110,45 @@ __Say "Hello, Ignite CLI"__
   - Start blockchain with reset: `ignite chain serve -r`
 - Run the following command and get the JSON
   - `hellod q hello posts`
+
+## Build a [Blog](https://docs.ignite.com/guide/blog/)
+- The purpose of this tutorial is to guide you through the implementation of complete feedback loop: submitting data and reading this data back from the blockchain.
+- You will learn about:
+  - Scaffolding a Cosmos SDK message
+  - Defining new types in protocol buffer files
+  - Implementing keeper methods to write data to the store
+  - Reading data from the store and return it as a result of a query
+  - Using the blockchain's CLI to broadcast transactions and query the blockchain
+
+### Create message types
+- Create a message type and its handler
+  - `ignite scaffold message createPost title body`
+### Define messages logic
+- Create a variable of type `Post` with title and body from the message
+- Append this `Post` to the store
+  ```go
+  func (k msgServer) CreatePost(goCtx context.Context, msg *types.MsgCreatePost) (*types.MsgCreatePostResponse, error) {
+    // Get the context
+    ctx := sdk.UnwrapSDKContext(goCtx)
+    // Create variable of type Post
+    var post = types.Post{
+       Creator: msg.Creator,
+       Title:   msg.Title,
+       Body:    msg.Body,
+    }
+    // Add a post to the store and get back the ID
+    id := k.AppendPost(ctx, post)
+    // Return the ID of the post
+    return &types.MsgCreatePostResponse{Id: id}, nil
+  }
+  ```
+### Create a post
+- Start your chain
+  - `ignite chain server`
+- Create a post
+  - `blogd tx blog create-post foo bar --from alice`
+
+
 ## Developer Resources
 - Cosmos [SDK](https://docs.cosmos.network/)
 - [Tendermint](https://docs.tendermint.com/) Core
