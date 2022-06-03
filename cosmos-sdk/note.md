@@ -147,7 +147,9 @@ __Say "Hello, Ignite CLI"__
   - `ignite chain server`
 - Create a post
   - `blogd tx blog create-post foo bar --from alice`
-
+### Display posts
+- Scaffold a query
+  - `ignite scaffold query posts --response title,body`
 
 ## Developer Resources
 - Cosmos [SDK](https://docs.cosmos.network/)
