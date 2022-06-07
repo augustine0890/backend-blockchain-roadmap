@@ -1,5 +1,5 @@
 # checkers
-**checkers** is a blockchain built using Cosmos SDK and Tendermint and created with [Starport](https://starport.com).
+**checkers** is a blockchain built using Cosmos SDK and Tendermint and created with [Starport](https://github.com/tendermint/starport).
 
 ## Get started
 
@@ -11,7 +11,11 @@ starport chain serve
 
 ### Configure
 
-Your blockchain in development can be configured with `config.yml`. To learn more, see the [Starport docs](https://docs.starport.com).
+Your blockchain in development can be configured with `config.yml`. To learn more, see the [Starport docs](https://docs.starport.network).
+
+### Launch
+
+To launch your blockchain live on multiple nodes, use `starport network` commands. Learn more about [Starport Network](https://github.com/tendermint/spn).
 
 ### Web Frontend
 
@@ -39,14 +43,14 @@ After a draft release is created, make your final changes from the release page 
 To install the latest version of your blockchain node's binary, execute the following command on your machine:
 
 ```
-curl https://get.starport.com/augustine/checkers@latest! | sudo bash
+curl https://get.starport.network/augustine/checkers@latest! | sudo bash
 ```
 `augustine/checkers` should match the `username` and `repo_name` of the Github repository to which the source code was pushed. Learn more about [the install process](https://github.com/allinbits/starport-installer).
 
 ## Learn more
 
-- [Starport](https://starport.com)
-- [Tutorials](https://docs.starport.com/guide)
-- [Starport docs](https://docs.starport.com)
-- [Cosmos SDK docs](https://docs.cosmos.network)
-- [Developer Chat](https://discord.gg/H6wGTY8sxw)
+- [Starport](https://github.com/tendermint/starport)
+- [Starport Docs](https://docs.starport.network)
+- [Cosmos SDK documentation](https://docs.cosmos.network)
+- [Cosmos SDK Tutorials](https://tutorials.cosmos.network)
+- [Discord](https://discord.gg/W8trcGV)
