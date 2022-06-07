@@ -14,3 +14,8 @@
 - Black player: string, the serialized address
 - Game proper: string, the game as it is serialized by the rules file
 - Player to play nextL string
+- Call the object that contains the counter `NextGame` and instruct Ignite CLI with `scaffold single`:
+  - `ignite scaffold single nextGame idValue:uint --module checkers --no-message`
+- You need a map because you're storing games by ID. Instruct Ignite CLI with `scaffold map` using the `StoredGame` name:
+  - `ignite scaffold map storedGame game turn red black --module checkers --no-message`
+### Additional helper functions
