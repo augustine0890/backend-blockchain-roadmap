@@ -11,10 +11,13 @@
 # Project
 - Create a new project
   - `cargo new <name-project>`
-- Compile: `cargo build`
-- Compile and run: `cargo run`
+- Compile: `cargo build` --> build a project.
+- Compile and run: `cargo run` --> build and run.
+- Check project types: `cargo check`
 - Remove generated `target`
   - `cargo clean`
+- Build documentation: `cargo doc`.
+- Publish a library to crates.io: `cargo publish`.
 - `Cargo` manager has all the rust libraries and frameworks.
 # Rustlang
 - Rust does not have a garbage collector --> ownership and its borrowing.
