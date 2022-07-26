@@ -29,6 +29,8 @@
 - Rust supports text values with two basic string types and one character type. A character is a single item, while a string is a series of characters. All text types are valid UTF-8 representations.
 - Integers are identified by a combination of its bit size and whether it's signed (`i`) or unsigned (`u`).
 - All text types are valid UTF-8 representations.
+- A tuple is a collection of values of different types. The data type is based on the data types of its elements, and the length is fixed based on the number of elements.
+- String data that's stored inside another data structure, such as a struct or vector, must be converted from a string literal reference(`&str`) to a `String` type.
 ## Functions in Rust
 - Every Rust program must have one function named `main`. The code in the `main` function is always the first code run in a Rust program.
 - We can call other functions from within the `main` function, or from within other functions.
