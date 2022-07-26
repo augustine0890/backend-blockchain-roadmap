@@ -33,4 +33,11 @@ fn main() {
     index_vec[1] = index_vec[1] + 5;
     println!("Vector: {:?}", index_vec);
 
+    let formal = true;
+    let greeting = if formal {
+        "Good day to you."
+    } else {
+        "Hey!"
+    };
+    println!("{}", greeting);
 }
