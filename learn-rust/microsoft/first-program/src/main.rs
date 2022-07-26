@@ -1,3 +1,14 @@
+fn goodbye(message: &str) {
+    println!("\n{}", message);
+}
+
+fn divide_by_5(num: u32) -> u32 {
+    if num == 0 {
+        return 0;
+    }
+    num / 5
+}
+
 fn main() {
     // Declare a variable
     let mut a_number = 10;
@@ -115,4 +126,52 @@ fn main() {
 
     // Use the {:#?} syntax to display the enum structure and data in a readable form
     println!("\nWebEvent enum structure: \n\n {:#?} \n\n {:#?} \n\n {:#?}", we_load, we_click, we_key);
+
+    let formal = "Formal: Good bye.";
+    let casual = "Casual: See you later!";
+    goodbye(formal);
+    goodbye(casual);
+
+    let num = 25;
+    println!("{} divided by 5 = {}", num, divide_by_5(num));
+
+    // We have orders for three new cars
+    // We'll declare a mutable car variable and reuse it for all the cars
+    let mut car = car_factory(String::from("Red"), Transmission::Manual, false);
+    println!("Car 1 = {}, {:?} transmission, convertible: {}, mileage: {}", car.color, car.transmission, car.convertible, car.mileage);
+
+    car = car_factory(String::from("Silver"), Transmission::Automatic, true);
+    println!("Car 2 = {}, {:?} transmission, convertible: {}, mileage: {}", car.color, car.transmission, car.convertible, car.mileage);
+
+    car = car_factory(String::from("Yellow"), Transmission::SemiAuto, false);
+    println!("Car 3 = {}, {:?} transmission, convertible: {}, mileage: {}", car.color, car.transmission, car.convertible, car.mileage);
+}
+
+// Declare Car struct to describe vehicle with four named fields
+struct Car {
+    color: String,
+    transmission: Transmission,
+    convertible: bool,
+    mileage: u32
+}
+
+// Declare enum for Car transmission type
+#[derive(PartialEq, Debug)]
+enum Transmission {
+    Manual,
+    SemiAuto,
+    Automatic
+}
+
+fn car_factory(color: String, transmission: Transmission, convertible: bool) -> Car {
+    // Create a new "Car" instance with requested characteristics
+    // - Corrected code: return a "Car" struct
+    // - Bind first three fields to value of corresponding input argument
+    // - Set mileage to 0
+    Car {
+        color: color,
+        transmission: transmission,
+        convertible: convertible,
+        mileage: 0
+    }
 }
