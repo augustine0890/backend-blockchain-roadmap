@@ -31,6 +31,12 @@
 - All text types are valid UTF-8 representations.
 - A tuple is a collection of values of different types. The data type is based on the data types of its elements, and the length is fixed based on the number of elements.
 - String data that's stored inside another data structure, such as a struct or vector, must be converted from a string literal reference(`&str`) to a `String` type.
+
+## Arrays
+- An array is a collection of objects of the same type that are stored sequentially in memory.
+## Vector
+- Vectors can store multiple values that have the same data type.
+- The size or length of a vector can grow or shrink at any time.
 ## Functions in Rust
 - Every Rust program must have one function named `main`. The code in the `main` function is always the first code run in a Rust program.
 - We can call other functions from within the `main` function, or from within other functions.
