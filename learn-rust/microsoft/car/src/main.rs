@@ -31,7 +31,7 @@ fn car_factory(order: i32, miles: u32) -> Car {
     // Valid color = 1, 2, 3, or 4
     // If color > 4, reduce color to valid index
     let mut color = order as usize;
-    if color > 4 {        
+    while color > 4 {        
         // color = 5 --> index 1, 6 --> 2, 7 --> 3, 8 --> 4
         color = color - 4;
     }
@@ -56,49 +56,21 @@ fn car_factory(order: i32, miles: u32) -> Car {
 }
 
 fn main() {
-    // Initialize counter variable
-    let mut order = 1;
+    let mut orders: HashMap<i32, Car> = HashMap::new();
     // Declare a car as mutable "Car" struct
     let mut car: Car;
 
-    let mut orders: HashMap<i32, Car> = HashMap::new();
-    // Order 6 cars, increment "order" for each request
-    // Car order #1: Used, Hard top
-    car = car_factory(order, 1000);
-    orders.insert(order, car);
-    println!("Car order {}: {:?}", order, orders.get(&order));
-    
-    // Car order #2: Used, Convertible
-    order = order + 1;
-    car = car_factory(order, 2000);
-    orders.insert(order, car);
-    println!("Car order {}: {:?}", order, orders.get(&order));
-    
-    // Car order #3: New, Hard top
-    order = order + 1;
-    car = car_factory(order, 0);
-    orders.insert(order, car);
-    println!("Car order {}: {:?}", order, orders.get(&order));
-    
-    // Car order #4: New, Convertible
-    order = order + 1;
-    car = car_factory(order, 0);
-    orders.insert(order, car);
-    println!("Car order {}: {:?}", order, orders.get(&order));
-    
-    // Car order #5: Used, Hard top
-    order = order + 1;
-    car = car_factory(order, 3000);
-    orders.insert(order, car);
-    println!("Car order {}: {:?}", order, orders.get(&order));
-    
-    // Car order #6: Used, Hard top
-    order = order + 1;
-    car = car_factory(order, 4000);
-    orders.insert(order, car);
-    println!("Car order {}: {:?}", order, orders.get(&order));
+    let mut miles = 0;
 
+    for order in 1..12 {
+        car = car_factory(order, miles);
+        orders.insert(order, car);
+        println!("Car order {}: {:?}", order, orders.get(&order));
 
-
-
+        if miles == 2100 {
+            miles = 0;
+        } else {
+            miles = miles + 700;
+        }
+    }
 }

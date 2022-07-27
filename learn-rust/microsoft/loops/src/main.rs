@@ -16,4 +16,27 @@ fn main() {
     reviews.remove(obsolete);
 
     println!("\nReview for \'{}\': {:?}", obsolete, reviews.get(obsolete));
+
+    let mut counter = 1;
+    let stop_loop = loop {
+        counter *= 2;
+        if counter > 10 {
+            break counter;
+        }
+    };
+    println!("Break the loop at counter = {}.", stop_loop);
+
+    while counter < 50 {
+        println!("We loop the while...");
+        counter += 10;
+    }
+
+    let big_birds = ["ostrich", "peacock", "stork"];
+    for bird in big_birds.iter() {
+        println!("The {} is a big bird.", bird);
+    }
+
+    for number in 0..5 {
+        println!("{}", number * 2);
+    }
 }
