@@ -42,3 +42,12 @@
 - We can call other functions from within the `main` function, or from within other functions.
 ## Handle Errors
 - The `panic!` macro to panic the current thread. It prints an error message, frees resources, and then exits the program.
+## Manage Memory
+- In Rust, "transferring ownership" is known as "moving". Only one thing can ever own a piece of data at a time.
+- Copying numbers is inexpensive, so it makes sense for these values to be copied.
+- Copying strings or vectors or other complex types can be very expensive --> Not `Copy` trait and instead of moved.
+- With `&` borrows, known as "immutable borrows" --> only read the data and can't change it.
+- With `&mut` borrows, known as "mutable borrows" --> can both read and write the data.
+- `<'a>` segment in the struct declaration `struct Nominee<'a> { person: &'a Person }`:
+  - The `Nominee` struct will live no longer than the `Person` value that it borrows from.
+
