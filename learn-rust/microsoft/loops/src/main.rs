@@ -1,6 +1,9 @@
+use std::env;
 use std::collections::HashMap;
 
 fn main() {
+    env::set_var("RUST_BACKTRACE", "1");
+
     let mut reviews: HashMap<String, String> = HashMap::new();
 
     reviews.insert(String::from("Ancient Roman History"), String::from("Very accurate."));
@@ -39,4 +42,42 @@ fn main() {
     for number in 0..5 {
         println!("{}", number * 2);
     }
+
+    let v = vec![1, 2, 3, 4, 5];
+    // println!("{}", v[6]);
+    println!("{}", v[2]);
+
+    let fruits = vec!["banana", "apple", "coconut", "orange", "strawberry"];
+    let first = fruits.get(0);
+    println!("{:?}", first);
+    let non_existent = fruits.get(101);
+    println!("{:?}", non_existent);
+
+    for &index in [0, 2, 101].iter() {
+        match fruits.get(index) {
+            Some(&"coconut") => println!("Coconuts are awesome!!!"),
+            Some(fruit_name) => println!("It's a delicious {}!", fruit_name),
+            None => println!("There is no fruit! :("),
+        }
+    }
+
+    let a_number: Option<u8> = Some(7);
+    match a_number {
+        Some(7) => println!("That's my lucky number!"),
+        _ => {},
+    }
+
+    let gift = Some("candy");
+    assert_eq!(gift.unwrap(), "candy");
+    // let empty_gift: Option<&str> = None;
+    // assert_eq!(empty_gift.unwrap(), "candy"); // This will panic!
+
+    let a = Some("value");
+    assert_eq!(a.expect("fruits are healthy"), "value");
+
+    // let b: Option<&str> = None;
+    // b.expect("fruits are healthy"); // panics with `fruits are healthy`
+
+    assert_eq!(Some("dog").unwrap_or("cat"), "dog");
+    assert_eq!(None.unwrap_or("cat"), "cat");
 }

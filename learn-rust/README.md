@@ -40,3 +40,5 @@
 ## Functions in Rust
 - Every Rust program must have one function named `main`. The code in the `main` function is always the first code run in a Rust program.
 - We can call other functions from within the `main` function, or from within other functions.
+## Handle Errors
+- The `panic!` macro to panic the current thread. It prints an error message, frees resources, and then exits the program.
