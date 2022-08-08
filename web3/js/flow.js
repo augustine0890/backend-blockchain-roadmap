@@ -70,3 +70,69 @@ var rangeSum = function(number) {
 }
 console.log("Range Sum:", rangeSum(5));
 console.log("Range Sum:", rangeSum(-30));
+
+var students = [ 
+  ["Mary", 10], 
+  ["Barbara", 11], 
+  ["David", 12], 
+  ["Alex", 11] 
+];
+
+var printStudents = function(students) {
+  for (var i=0; i<students.length; i++) {
+    console.log(students[i]);
+  }
+}
+printStudents(students);
+
+var arraySum = function(numbers) {
+  var sums = [];
+  for (var i=0; i<numbers.length; i++) {
+    var sum = 0;
+    for (var j=0; j<numbers[i].length; j++) {
+      sum += numbers[i][j];
+    }
+    sums.push(sum);
+  }
+  return sums;
+}
+console.log(arraySum([[4, 5, 6, 7]])); /* returns 22 */
+console.log(arraySum([[-6, 10, 0, 4]])); /* returns 8 */
+
+var student = {
+  name: "Mary",
+  age: 10,
+  grades: [90, 80, 95]
+}
+for (property in student) {
+  console.log(student[property]);
+}
+
+var students = [
+  { 
+    name: "Mary", 
+    age: 10, 
+    grades: [90, 88, 95]
+  }, 
+  {
+    name: "Joseph", 
+    age: 11, 
+    grades: [80, 100, 90, 96]
+  }
+];
+
+var getAverages = function(students) {
+  var averages = [];
+  for (var i=0; i<students.length; i++) {
+    var gradesArray = students[i].grades;
+    var sum = 0;
+    for (var j=0; j<gradesArray.length; j++) {
+      sum += gradesArray[j];
+    }
+    var average = sum/gradesArray.length;
+    averages.push(average);
+  }
+  return averages;
+}
+
+console.log(getAverages(students));
