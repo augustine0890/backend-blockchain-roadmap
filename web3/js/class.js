@@ -4,9 +4,9 @@ class Developer {
     this.lastname = lastname;
   }
 
-  // getName() {
-    // return `${this.firstname} ${this.lastname}`;
-  // }
+  getName() {
+    return `${this.firstname} ${this.lastname}`;
+  }
 }
 
 var me = new Developer('Augustine', 'Nguyen');
@@ -59,3 +59,12 @@ var printInfo = function(firstname, lastname, lang1, lang2, lang3) {
 
 languages = ['Javascript', 'Golang', 'Rust'];
 printInfo('Augustine', 'Nguyen', ...languages)
+
+class BackendDeveloper extends Developer {
+  getJob() {
+    return 'Backend Developer';
+  }
+}
+me = new BackendDeveloper('Augustine', 'Nguyen')
+console.log(me.getName());
+console.log(me.getJob());
