@@ -7,10 +7,18 @@ export default class App extends React.Component {
       { name: 'Markus'},
     ];
 
+    const showUsers = true;
+
     return (
-      <ul>
-        {users.map(user => <li>{user.name}</li>)}
-      </ul>
+      <div>
+        {
+          showUsers && (
+            <ul>
+              {users.map(user => <li>{user.name}</li>)}
+            </ul>
+          )
+        }
+      </div>
     )
   }
 }

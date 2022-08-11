@@ -71,6 +71,10 @@ var rangeSum = function(number) {
 console.log("Range Sum:", rangeSum(5));
 console.log("Range Sum:", rangeSum(-30));
 
+var numOfMonths = 14;
+var ans = numOfMonths > 12 ? "Invalid" : "Valid";
+console.log(ans);
+
 var students = [ 
   ["Mary", 10], 
   ["Barbara", 11], 
