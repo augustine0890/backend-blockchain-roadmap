@@ -4,14 +4,27 @@ class Developer {
     this.lastname = lastname;
   }
 
-  getName() {
-    return `${this.firstname} ${this.lastname}`;
-  }
+  // getName() {
+    // return `${this.firstname} ${this.lastname}`;
+  // }
 }
 
-var me = new Developer('Robin', 'Hoods');
-console.log(me.getName());
+var me = new Developer('Augustine', 'Nguyen');
+// console.log(me.firstname);
 
+var getName = () => console.log(this.firstname);
+const printMyName = getName.bind(me);
+printMyName();
+
+
+var printName = function() {
+  console.log(`My name is ${this.firstname} ${this.lastname}`);
+};
+const newPrintName = printName.bind(me);
+// bound newPrintName() prints appropriately
+newPrintName();
+// unbound printName() prints undefined
+printName();
 
 class Car {
   constructor(color, model, engineCap, registrationNumber) {
@@ -37,3 +50,12 @@ class Car {
     this.model = model;
   }
 }
+
+var printInfo = function(firstname, lastname, lang1, lang2, lang3) {
+  this.firstname = firstname;
+  this.lastname = lastname;
+  console.log(`My name is ${this.firstname} ${this.lastname} and I know ${lang1}, ${lang2}, and ${lang3}`)
+}
+
+languages = ['Javascript', 'Golang', 'Rust'];
+printInfo('Augustine', 'Nguyen', ...languages)
