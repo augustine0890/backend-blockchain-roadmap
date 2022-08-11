@@ -82,6 +82,15 @@ var students = [
   ["Alex", 11] 
 ];
 
+let student = {
+  ID: '21',
+  name: 'John',
+  GPA: '3.0',
+};
+const {ID, name, GPA} = student;
+const {name: n} = student;
+console.log("Is this John?", n);
+
 var printStudents = function(students) {
   for (var i=0; i<students.length; i++) {
     console.log(students[i]);
@@ -103,7 +112,7 @@ var arraySum = function(numbers) {
 console.log(arraySum([[4, 5, 6, 7]])); /* returns 22 */
 console.log(arraySum([[-6, 10, 0, 4]])); /* returns 8 */
 
-var student = {
+student = {
   name: "Mary",
   age: 10,
   grades: [90, 80, 95]
@@ -140,3 +149,14 @@ var getAverages = function(students) {
 }
 
 console.log(getAverages(students));
+
+students = [
+  {ID: 1, present: true},
+  {ID: 2, present: true},
+  {ID: 3, present: false},
+];
+const presentStudents = students.filter(function(student){return student.present;});
+console.log(presentStudents);
+
+const square = (n) => n*n;
+console.log("The square of nine:", square(9));
