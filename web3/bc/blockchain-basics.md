@@ -43,5 +43,36 @@
   - Gas spent: actual amount spent at completion of block creation.
   - maxPriorityFeePerGas: the maximum amount of gas to be included as a tip to the miner.
 # Algorithms and Techniques
+## Public-key Cryptography
+- Asymmetric key cryptography --> public-key cryptography
+  - Using the pair of private and public keys (RSS, ECC)
+## Hashing - Compression Functions
+- Hasing techniques maps an arbitrary length of input data value to q unique fixed length value which can NOT be reversed back to the original one.
+- Hash functions are often in combination with digital signatures (SHA-256 for Bitcoint, Keccak-256 for Ethereum)
+- The algorithm should be one-way function, and collision free
+- Use cases in Ethereum: account address, digital signatures, transaction hash, state hash, receipt hash, block header hash.
+- Hashing with mining process:
+  - Hash(A + Nonce) --> Hash(B + Nonce) --> Hash(C + Nonce)
+## Transaction Integrity
+- Account Address:
+  1. 256-bit random number --> Private key
+  2. Elliptic-curve cryptography algorithm applied to private key to generate public key
+  3. Hashing applied to public key --> Account address (20 bytes)
+- A transaction for transfering assets: authorized, non-repudiable, and unmodifiable.
+  1. Hash of data fields of the transaction
+  2. Signing (data hashed, encrypted) using private key
+  3. Add to the transaction --> can be verified by decrypting using public key of the sender of the transaction, and recomputing the hash of transaction --> compare the computed hash, and the hash received at the digital signature.
+## Securing Blockchain
+- Main components of a Ethereum block:
+  - Block header, transaction hash, transaction root, state hash, state root.
+- The Ethereum block hash is the block of all the elements in the block header, including the transaction root and state root hashes.
+- The block header hash is calculated by running the block header through the SHA256 algorithm twice.
+- The Bitcoin block header:
+  - Version: bitcoin version number
+  - Previous Block Hash: the previous block header hash
+  - Merkle Root: a hash of the root of the merkle tree of this block's transactions
+  - Timestamp: the timestamp of the block in UNIX
+  - Diffculty Target: the difficulty target for the block
+  - Nonce: the counter ussed by miners to generate a correct hash.
 
 # Trust Essentials
