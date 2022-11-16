@@ -27,3 +27,12 @@
 - Running our own node is typically very difficult to set up and has specific hardware requirements.
 - A node provider is party that runs blockchain node(s) and provides us service which we can use to interact with blockchain.
 - Calling `provider` instance methods --> making JSON-RPC calls to the Ethereum node to get the data.
+- When we want to interact with a deployed smart contract --> need to send a transaction request to the blockchain.
+  - Must include information such as which functions inside the smart contract we want to call, arguments, arguments's data types.
+- A contract's ABI (Application Binary Interface) provides all the information about the functions
+  - Function name
+  - Function type (e.g. function, constructor, fallback, or receive)
+  - Arguments and their data type
+  - Output
+  - State mutability (pure, view, payable, etc.)
+- When we compile our smart contract with tools or frameworks like Hardhat or Remix IDE --> the contract's ABI will be generate.
