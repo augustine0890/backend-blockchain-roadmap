@@ -21,3 +21,8 @@
 ## Web3 Libraries
 - Web3.js: JSON-RPC wrapper library for Javascript, developed by the Ethereum Foundation.
 - WalletConnect SDK: Web3 library dedicated for mobile interaction, usually paired with Web3.js or Ethers.js, developed by TrustWallet.
+
+## Reading and Writing Smart Contract
+- When we want to interact with a blockchain, for e.g reading blockchain data --> send a request a blockchain node.
+- Running our own node is typically very difficult to set up and has specific hardware requirements.
+- A node provider is party that runs blockchain node(s) and provides us service which we can use to interact with blockchain.
