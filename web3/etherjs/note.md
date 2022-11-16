@@ -26,3 +26,4 @@
 - When we want to interact with a blockchain, for e.g reading blockchain data --> send a request a blockchain node.
 - Running our own node is typically very difficult to set up and has specific hardware requirements.
 - A node provider is party that runs blockchain node(s) and provides us service which we can use to interact with blockchain.
+- Calling `provider` instance methods --> making JSON-RPC calls to the Ethereum node to get the data.

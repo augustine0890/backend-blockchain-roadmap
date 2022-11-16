@@ -14,5 +14,10 @@ const readChainData = async () => {
   // Get current block number
   const blockNumber = await provider.getBlockNumber()
   console.log('Current Block Number:', blockNumber);
+
+  // Get ethers balance for a specific wallet
+  const balance = await provider.getBalance("0x009Fdf35d5De7D77909Eb64B50b642A85F447E10");
+  const formattedBalance = ethers.utils.formatEther(balance)
+  console.log("Balance:", formattedBalance, "ether");
 }
 readChainData()
