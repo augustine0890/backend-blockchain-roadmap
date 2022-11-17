@@ -5,5 +5,6 @@ module.exports = {
     'function symbol() view returns(string)',
     'function balanceOf(address) view returns (uint256)',
     'function totalSupply() view returns (uint256)',
+    'function mint(address, uint256)',
   ]),
 };
