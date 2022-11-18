@@ -1,4 +1,6 @@
 # Basic Blockchain
+- Decentralization means the network operates on a user-to-user (or peer-to-peer) basics.
+- Permissioned or Consortium Blockchain has the benefits of a public blockchain with allowing only users with “permission” to collaborate and transact.
 ## Bitcoin
 - Blockchain is about enabling peer-to-peer transactions in a decentralized network
 - Validation, Verification, Immutable Recording, and Consensus lead to Trust and Security.
@@ -19,6 +21,7 @@
 - Smart contract is a piece of code deployed in blockchain nodes. It helps creating logic conditions or agreements approved by organizations
 - Smart contracts are self-executing lines of code with the terms of an agreement between buyer and seller automatically verified and executed via a computer network
 ## Ethereum
+- Ethereum Virtual Machine (EVM) is a special structure where code is deployed on after being translated into byte-code.
 - The account is the sender and the receiver of a transaction that updates balance as opposed to UTXO methods in Bitcoin.
 - Two types of accounts:
   - Externally Owned Accounts (EOAs): which are controlled by private keys. The address of an account is determinted from the public key.
@@ -32,6 +35,7 @@
 - Gas is what you pay to execute code on the blockchain and to transfer ether to another address. For each instruction on the Ethereum Virtual Machine you pay a certain amount of gas. Some instructions are expensive and some are cheap.
 ## Ethereum Operations
 - Proof-of-Work: miners must compete to solve a difficult puzzle using their computers processing power.
+  - The main goal of deterring cyber-attacks such as a distributed denial-of-service attack (DDoS) which has the purpose of exhausting the resources of a computer system by sending multiple fake requests. 
 - Proof-of-Stake: instead of requiring mining nodes to run expensive equipment like PoW to discover new blocks, the new PoS system requires users to deposit and lock a specific of coins on the network.
 - Stake means how many coins they commited to hold.
 ## Incentive Model
@@ -44,6 +48,8 @@
   - maxPriorityFeePerGas: the maximum amount of gas to be included as a tip to the miner.
 # Algorithms and Techniques
 ## Public-key Cryptography
+- Elliptic Curve Cryptography (ECC) family of algorithms is used in Bitcoin as well as Ethereum Blockchain for generating the key pair.
+- 
 - Asymmetric key cryptography --> public-key cryptography
   - Using the pair of private and public keys (RSS, ECC)
 ## Hashing - Compression Functions
@@ -53,6 +59,7 @@
 - Use cases in Ethereum: account address, digital signatures, transaction hash, state hash, receipt hash, block header hash.
 - Hashing with mining process:
   - Hash(A + Nonce) --> Hash(B + Nonce) --> Hash(C + Nonce)
+- A Merkle tree is constructed by hashing paired data (the leaves), then pairing and hashing the results until a single hash remains.
 ## Transaction Integrity
 - Account Address:
   1. 256-bit random number --> Private key
@@ -76,3 +83,27 @@
   - Nonce: the counter ussed by miners to generate a correct hash.
 
 # Trust Essentials
+## Decentralized Systems
+- The trust trail:
+  - Validate transaction
+  - Verify gas and resources
+  - Gather transactions to create a block
+  - Execute transaction to get a new state
+  - Form a new block
+  - Consensus mechanisms
+  - Add the block to chain and confirm the transactions
+## Consensus Protocol
+>Is there a method or protocol to choose the next block without conflict what if every miners want to add new blocks to the chain?
+- Proof of Work (PoW):
+  - The miners compete to add the next block in the chain by racing to solve crytographic puzzle (computationally expensive).
+  - The winning miner will broadcast its new block and other miners would verify it.
+## Robustness
+- Robustness is the ability to satisfactorily manage exceptional situations.
+- Double Spending (For Ethereum: account number and global nonce with timestamp in it solve this problem)
+- Chain splits: temporary fork --> two diffrerent instances of the blockchain.
+## Forks
+- Soft folk and hard fork: are like the release of software patches and new versions of operating systems respectively.
+- Forks are mechanisms that add to the robustness of the Blockchain framework.
+- A Soft Fork is a fork where updated versions of the protocol are backwards compatible with previous versions. 
+- A Hard Fork is a change of the protocol that is not backwards compatible with older versions of the client. Participants would absolutely need to upgrade their software in order to recognize new blocks. 
+- Ommer Blocks contribute to the security of the main chain, but are not considered the canonical "truth" for that particular chain height. 
